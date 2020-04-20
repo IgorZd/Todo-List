@@ -2,30 +2,43 @@ import React from "react";
 
 import "./TodoListItem.css";
 
-const TodoListItem = ({ label, important = false }) => {
-  const style = {
-    color: important ? "steelblue" : "black",
-    fontWeight: important ? "bold" : "normal",
-  };
-
-  return (
-    <span className="todo-list-item">
-      <span className="todo-list-item-label" style={style}>
-        {label}
+export default class TodoListItem extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+  render() {
+    const { label, done, important } = this.props;
+    let classNames = "todo-list-item";
+    if (done) {
+      classNames += " done";
+    }
+    if (important) {
+      classNames += " important";
+    }
+    return (
+      <span className={classNames}>
+        <span
+          className="todo-list-item-label"
+          onClick={this.props.onToggleDone}
+        >
+          {label}
+        </span>
+        <button
+          type="button"
+          className="btn btn-outline-success btn-sm float-right"
+          onClick={this.props.onToggleImportant}
+        >
+          <i className="fa fa-exclamation"></i>
+        </button>
+        <button
+          type="button"
+          className="btn btn-outline-danger btn-sm float-right"
+          onClick={this.props.onDeleted}
+        >
+          <i className="fa fa-trash-o"></i>
+        </button>
       </span>
-      <button
-        type="button"
-        className="btn btn-outline-success btn-sm float-right"
-      >
-        <i className="fa fa-exclamation"></i>
-      </button>
-      <button
-        type="button"
-        className="btn btn-outline-danger btn-sm float-right"
-      >
-        <i className="fa fa-trash-o"></i>
-      </button>
-    </span>
-  );
-};
-export default TodoListItem;
+    );
+  }
+}
